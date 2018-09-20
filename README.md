@@ -2,9 +2,18 @@
 
 基于[ng-alain](https://ng-alain.com/)脚手架，增加对[ABP](https://aspnetboilerplate.com/)服务端支持（ABP免费模板）
 
+## 演示地址
+
+
+[ABP & ng-alain Demo](http://abp-ng-alain.cn-panda.cn) 渣服务器，加载较慢，请轻撸！
+
+登录帐号密码为ABP默认帐号密码 admin/123qwe
+
 ## 支持说明
 
 除http通信外，其余全部采用ng-alain脚手架所提供的方案；关于多语言、权限等所有内容均与ng-alain完全相同。
+
+http通信采用的是已封装好针对abp有处理的http类，`src/app/core/abp/abpHttp.ts`
 
 ## 支持版本
 
