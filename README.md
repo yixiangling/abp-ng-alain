@@ -44,6 +44,9 @@ ng serve
 如若你的导航菜单数据是由服务器端返回，那么请修改
 `src/app/core/abp/abp-configuration.service.ts`文件中获取菜单数据部分的代码
 
+### service-proxies 更新
+执行 `nswag/refresh.bat` 可更新接口访问代码，使用方法同ABP
+
 ## Links
 
 + [文档](https://ng-alain.com)
