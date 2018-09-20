@@ -1,0 +1,40 @@
+<form nz-form #validateForm="ngForm" (ngSubmit)="save()" *ngIf="tenant">
+    <div class="modal-header">
+        <div class="modal-title">
+            {{'EditTenant' | translate}}
+        </div>
+    </div>
+
+    <nz-spin [nzSpinning]="!tenant">
+        <nz-form-item>
+            <nz-form-control nzHasFeedback>
+                <input nz-input name="tenancyName" #tenancyName="ngModel" [(ngModel)]="tenant.tenancyName"
+                    [placeholder]="'TenancyName' | translate" required>
+                <nz-form-explain *ngIf="tenancyName.control.dirty&&tenancyName.control.errors">
+                    <ng-container *ngIf="tenancyName.control.hasError('required')">{{'Required' | translate}}</ng-container>
+                </nz-form-explain>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-control nzHasFeedback>
+                <input nz-input name="name" #name="ngModel" [(ngModel)]="tenant.name" [placeholder]="'Name' | translate"
+                    required>
+                <nz-form-explain *ngIf="name.control.dirty&&name.control.errors">
+                    <ng-container *ngIf="name.control.hasError('required')">{{'Required' | translate}}</ng-container>
+                </nz-form-explain>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-control>
+            <label nz-checkbox name="isActive" [(ngModel)]="tenant.isActive">{{"IsActive" | translate}}</label>
+        </nz-form-control>
+    </nz-spin>
+
+    <div class="modal-footer">
+        <button nz-button type="button" [disabled]="saving" (click)="close()">{{"Cancel" | translate}}</button>
+        <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">{{"Save" |
+            translate}}</button>
+    </div>
+
+</form>

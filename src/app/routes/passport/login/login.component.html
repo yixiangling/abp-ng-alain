@@ -1,0 +1,73 @@
+<nz-spin [nzTip]="'LogIningWithThreeDot' | translate" [nzSize]="'large'" [nzSpinning]="submitting">
+    <nz-card [nzTitle]="nzTitle" nzHoverable='true'>
+        <ng-template #nzTitle>
+            <div class="text-center">
+                <span>{{ 'LogIn' | translate }}</span>
+            </div>
+        </ng-template>
+        <form nz-form #loginForm="ngForm" role="form" novalidate (ngSubmit)="login()" method="post" class="login-form">
+            <br>
+            <nz-form-item>
+                <nz-form-control>
+                    <nz-input-group nzPrefixIcon="anticon anticon-user">
+                        <input nz-input name="userNameOrEmailAddress" #userNameOrEmailAddressInput="ngModel"
+                            [(ngModel)]="loginService.authenticateModel.userNameOrEmailAddress" [placeholder]="'UserNameOrEmail' | translate" [nzSize]="'large'" required maxlength="255">
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-control>
+                    <nz-input-group nzPrefixIcon="anticon anticon-lock">
+                        <input nz-input name="password" #passwordInput="ngModel" [(ngModel)]="loginService.authenticateModel.password" [placeholder]=" 'Password' | translate " type="password" [nzSize]="'large'" required maxlength="32">
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-col [nzSpan]="12">
+
+                    <label nz-checkbox [(ngModel)]="loginService.rememberMe" name="rememberMe" id="rememberme">
+                        <span>{{ "RememberMe" | translate }}</span>
+                    </label>
+
+                </nz-col>
+
+                <nz-col [nzSpan]="12" class="text-right">
+                    <a routerLink="/account/forgot-password" class="forgot forget-password">{{ "ForgotPassword" |
+                        translate }}</a>
+
+                </nz-col>
+
+            </nz-form-item>
+
+            <button nz-button [nzType]="'primary'" [nzLoading]="submitting" [nzSize]="'large'" nzBlock [disabled]="!loginForm.form.valid||submitting">
+                <i class="anticon anticon-login"></i>
+                <span>{{ "LogIn" | translate }}</span>
+            </button>
+
+        </form>
+
+        <nz-form-item>
+            <nz-col [nzSpan]="12">
+            </nz-col>
+            <nz-col [nzSpan]="12" class="text-right" *ngIf="isSelfRegistrationAllowed">
+                <a [routerLink]="['../register']">{{ "Register" | translate }}</a>
+            </nz-col>
+        </nz-form-item>
+
+        <div class="login-action-items">
+            <div class="links">
+                <span *ngIf="isSelfRegistrationAllowed">
+                    <a routerLink="/account/register">{{ "CreateAnAccount" | translate }}</a>
+                    <nz-divider nzType="vertical"></nz-divider>
+                </span>
+                <span>
+                    <a routerLink="/account/email-activation">{{ "EmailActivation" | translate }}</a>
+                </span>
+            </div>
+        </div>
+
+
+    </nz-card>
+</nz-spin>

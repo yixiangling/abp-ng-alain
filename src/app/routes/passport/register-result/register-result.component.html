@@ -1,0 +1,14 @@
+<nz-card [nzTitle]="nzTitle" nzHoverable='true'>
+    <result type="success" [title]="title" [description]="description">
+        <ng-template #title>
+            <div class="title">{{email}} {{'SuccessfullyRegistered' | translate}}</div>
+        </ng-template>
+        <ng-template #description>
+            <div class="description">
+                <span>{{'WaitingForEmailActivation' | translate}}</span>
+            </div>
+        </ng-template>
+        <button [routerLink]="['../../login']" nz-button nzSize="large" [nzType]="'primary'">{{'LogIn' | translate}}</button>
+        <button [routerLink]="['/']" nz-button nzSize="large">{{'HomePage' | translate}}</button>
+    </result>
+</nz-card>

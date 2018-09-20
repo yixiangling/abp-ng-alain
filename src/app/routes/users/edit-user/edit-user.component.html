@@ -1,0 +1,65 @@
+<form nz-form #validateForm="ngForm" (ngSubmit)="save()" *ngIf="user">
+    <div class="modal-header">
+        <div class="modal-title">
+            {{'EditUser' | translate}}
+        </div>
+    </div>
+
+    <nz-tabset>
+        <nz-tab [nzTitle]="'UserDetails' | translate">
+          <nz-form-item>
+            <nz-form-control nzHasFeedback>
+              <input nz-input name="userName" #userName="ngModel" [(ngModel)]="user.userName" [placeholder]="'UserName' | translate" required>
+              <nz-form-explain *ngIf="userName.control.dirty&&userName.control.errors">
+                <ng-container *ngIf="userName.control.hasError('required')">{{'CanNotNull' | translate}}</ng-container>
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+  
+          <nz-form-item nz-row nzGutter="8">
+
+              <nz-form-control nzHasFeedback nz-col [nzSpan]="12">
+                <input nz-input name="name" #name="ngModel" [(ngModel)]="user.name" [placeholder]="'name' | translate" autocomplete="name" required>
+                <nz-form-explain *ngIf="name.control.dirty&&name.control.errors">
+                  <ng-container *ngIf="name.control.hasError('required')">{{'CanNotNull' | translate}}</ng-container>
+                </nz-form-explain>
+              </nz-form-control>
+            
+              <nz-form-control nzHasFeedback nz-col [nzSpan]="12">
+                <input nz-input name="surname" #surname="ngModel" [(ngModel)]="user.surname" [placeholder]="'Surname' | translate" required>
+                <nz-form-explain *ngIf="surname.control.dirty&&surname.control.errors">
+                  <ng-container *ngIf="surname.control.hasError('required')">{{'CanNotNull' | translate}}</ng-container>
+                </nz-form-explain>
+              </nz-form-control>
+            
+          </nz-form-item>
+  
+          <nz-form-item>
+            <nz-form-control nzHasFeedback>
+              <input nz-input name="emailAddress" #emailAddress="ngModel" [(ngModel)]="user.emailAddress" [placeholder]="'EmailAddress' | translate"
+                autocomplete="email" required email>
+              <nz-form-explain *ngIf="emailAddress.control.dirty&&emailAddress.control.errors">
+                <ng-container *ngIf="emailAddress.control.hasError('required')">{{'CanNotNull' | translate}}</ng-container>
+                <ng-container *ngIf="emailAddress.control.hasError('email')">{{'NotEmail' | translate}}</ng-container>
+              </nz-form-explain>
+            </nz-form-control>
+          </nz-form-item>
+  
+          <nz-form-item>
+            <label nz-checkbox name="isActive" [(ngModel)]="user.isActive">{{'IsActive' | translate}}</label>
+          </nz-form-item>
+        </nz-tab>
+  
+  
+        <nz-tab [nzTitle]="'UserRoles' | translate">
+          <nz-checkbox-group name="roles" [(ngModel)]="roleList"></nz-checkbox-group>
+        </nz-tab>
+  
+      </nz-tabset>
+
+    <div class="modal-footer">
+        <button nz-button type="button" [disabled]="saving" (click)="close()">{{"Cancel" | translate}}</button>
+        <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">{{"Save" | translate}}</button>
+    </div>
+
+</form>

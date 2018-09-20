@@ -1,0 +1,46 @@
+<form nz-form #validateForm="ngForm" (ngSubmit)="save()" *ngIf="role">
+    <div class="modal-header">
+        <div class="modal-title">
+            {{'EditRole' | translate}}
+        </div>
+    </div>
+
+    <nz-spin [nzSpinning]="!role">
+        <nz-form-item>
+            <nz-form-control nzHasFeedback>
+                <input nz-input name="name" #name="ngModel" [(ngModel)]="role.name" [placeholder]="'Name' | translate"
+                    [disabled]="role.isStatic" required>
+                <nz-form-explain *ngIf="name.control.dirty&&name.control.errors">
+                    <ng-container *ngIf="name.control.hasError('required')">{{'CanNotNull' | translate}}</ng-container>
+                </nz-form-explain>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-control nzHasFeedback>
+                <input nz-input name="displayName" #displayName="ngModel" [(ngModel)]="role.displayName" [placeholder]="'DisplayName' | translate"
+                    required>
+                <nz-form-explain *ngIf="displayName.control.dirty&&displayName.control.errors">
+                    <ng-container *ngIf="displayName.control.hasError('required')">{{'CanNotNull' | translate}}</ng-container>
+                </nz-form-explain>
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-form-control>
+                <input nz-input name="description" [(ngModel)]="role.description" [placeholder]="'RoleDescription' | translate">
+            </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+            <nz-checkbox-group name="permissions" [(ngModel)]="permissionList" *ngIf="permissionList.length!=0"></nz-checkbox-group>
+        </nz-form-item>
+    </nz-spin>
+
+    <div class="modal-footer">
+        <button nz-button type="button" [disabled]="saving" (click)="close()">{{"Cancel" | translate}}</button>
+        <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">{{"Save" |
+            translate}}</button>
+    </div>
+
+</form>

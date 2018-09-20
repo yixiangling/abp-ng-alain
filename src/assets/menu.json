@@ -1,0 +1,62 @@
+[
+    {
+        "text": "管理",
+        "i18n": "main_navigation",
+        "group": true,
+        "hideInBreadcrumb": true,
+        "children": [
+            {
+                "text": "仪表盘",
+                "i18n": "dashboard",
+                "icon": "anticon antanticon anticon-rocket",
+                "link": "/dashboard",
+                "acl": ""
+            },
+            {
+                "text": "租户",
+                "i18n": "Tenants",
+                "icon": "anticon antanticon anticon-team",
+                "link": "/tenants",
+                "acl": "Pages.Tenants"
+            },
+            {
+                "text": "用户",
+                "i18n": "Users",
+                "icon": "anticon antanticon anticon-user",
+                "link": "/users",
+                "acl": "Pages.Users"
+            },
+            {
+                "text": "角色",
+                "i18n": "Roles",
+                "icon": "anticon antanticon anticon-key",
+                "link": "/roles",
+                "acl": "Pages.Roles"
+            }
+        ]
+    },
+    
+    {
+        "text": "Exception",
+        "i18n": "pro-exception",
+        "link": "/",
+        "icon": "anticon anticon-exception",
+        "children": [
+            {
+                "text": "403",
+                "link": "/403",
+                "reuse": false
+            },
+            {
+                "text": "404",
+                "link": "/404",
+                "reuse": false
+            },
+            {
+                "text": "500",
+                "link": "/500",
+                "reuse": false
+            }
+        ]
+    }
+]

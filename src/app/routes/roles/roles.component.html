@@ -1,0 +1,33 @@
+<page-header [title]="'Roles' | translate">
+    <ng-template #action>
+        <button nz-button (click)="create()" nzType="primary">{{'Create' | translate}}</button>
+        <button nz-button (click)="refresh()">{{'Refresh' | translate}}</button>
+    </ng-template>
+</page-header>
+
+<nz-card>
+    <nz-table #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="dataItems" [nzTotal]="pageingInfo.totalItems"
+        [(nzPageIndex)]="pageingInfo.pageNumber" [(nzPageSize)]="pageingInfo.pageSize" [nzLoading]="pageingInfo.isTableLoading"
+        (nzPageIndexChange)="refresh()" (nzPageSizeChange)="refresh()">
+        <thead>
+            <tr>
+                <th>{{'RoleName' | translate}}</th>
+                <th>{{'DisplayName' | translate}}</th>
+                <th>{{'Actions' | translate}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of ajaxTable.data">
+                <td>{{item.name}}</td>
+                <td>{{item.displayName}}</td>
+                <td>
+                    <a (click)="edit(item)">{{'Edit' | translate}}</a>
+                    <nz-divider nzType="vertical"></nz-divider>
+                    <a nz-popconfirm [nzTitle]="'AreYouSureWantToDelete' | translateFormat : item.tenancyName"
+                        (nzOnConfirm)="delete(item)" nzPlacement="top">{{'Delete' | translate}}</a>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+
+</nz-card>

@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="top">
+        <div class="head">
+            <a [routerLink]="['/']">
+                <span class="title">Abp & ng-alain</span>
+            </a>
+        </div>
+        <tenant-change></tenant-change>
+
+    </div>
+    <router-outlet></router-outlet>
+    <global-footer >
+        <ng-template #copyright>
+            Copyright <i class="anticon anticon-copyright"></i> 2018  <a href="//github.com/cipchk" target="_blank">卡色</a>
+        </ng-template>
+    </global-footer>
+</div>
