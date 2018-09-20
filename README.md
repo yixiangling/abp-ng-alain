@@ -47,6 +47,10 @@ ng serve
 ### service-proxies 更新
 执行 `nswag/refresh.bat` 可更新接口访问代码，使用方法同ABP
 
+### 多语言问题
+
+切换到中文语言时仍有英文是因为免费模板提供的中文语言数据不全，只要自行补足即可。
+
 ## Links
 
 + [文档](https://ng-alain.com)
