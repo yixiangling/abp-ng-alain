@@ -11,7 +11,7 @@ import { I18NService } from '@core/i18n/i18n.service';
 export class CreateUserComponent implements OnInit {
 
     saving: boolean = false;
-    user: CreateUserDto = new CreateUserDto();
+    model: CreateUserDto = new CreateUserDto();
     roles: RoleDto[] = null;
 
     roleList = [];
@@ -27,6 +27,8 @@ export class CreateUserComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.model.isActive = true;
+
         this.userService.getRoles()
             .subscribe((result) => {
                 this.roles = result.items;
@@ -46,9 +48,9 @@ export class CreateUserComponent implements OnInit {
                 tmpRoleNames.push(item.value);
             }
         });
-        this.user.roleNames = tmpRoleNames;
+        this.model.roleNames = tmpRoleNames;
 
-        this.userService.create(this.user)
+        this.userService.create(this.model)
             .pipe(finalize(()=>{this.saving = false}))
             .subscribe(() => {
                 this.notifyService.success(this.i18NService.localize('SavedSuccessfully'));

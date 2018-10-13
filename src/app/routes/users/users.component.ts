@@ -6,6 +6,8 @@ import { ModalHelper } from '@delon/theme';
 
 import { CreateUserComponent } from './create-user/create-user.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
+import { I18NService } from '@core/i18n/i18n.service';
+import { NotifyService } from '@core/abp/notify/notify.service';
 
 @Component({
     templateUrl: './users.component.html'
@@ -13,7 +15,9 @@ import { EditUserComponent } from './edit-user/edit-user.component';
 export class UsersComponent extends PagedListingComponentBase<UserDto> {
     constructor(
         private modalHelper: ModalHelper,
-        private userService: UserServiceProxy
+        private i18NService: I18NService,
+        private userService: UserServiceProxy,
+        private notifyService: NotifyService
     ) {
         super();
     }
@@ -23,11 +27,14 @@ export class UsersComponent extends PagedListingComponentBase<UserDto> {
     }
 
     protected delete(item: UserDto): void {
-        this.userService.delete(item.id).subscribe(()=> {this.refresh();});
+        this.userService.delete(item.id).subscribe(()=> {
+            this.notifyService.success(this.i18NService.localize('SuccessfullyDeleted'));
+            this.refresh();
+        });
     }
 
     create(): void {
-        this.modalHelper.open(CreateUserComponent, undefined, 'md', { nzMask: true }).subscribe(result => {
+        this.modalHelper.open(CreateUserComponent, undefined, 'md', { nzMaskClosable: false }).subscribe(result => {
             if(result){
                 this.refresh();
             }
@@ -35,7 +42,7 @@ export class UsersComponent extends PagedListingComponentBase<UserDto> {
     }
 
     edit(item: UserDto): void {
-        this.modalHelper.open(EditUserComponent, { id: item.id }, 'md', { nzMask: true }).subscribe(result => {
+        this.modalHelper.open(EditUserComponent, { id: item.id }, 'md', { nzMaskClosable: false }).subscribe(result => {
             if(result){
                 this.refresh();
             }

@@ -1,40 +1,27 @@
-<form nz-form #validateForm="ngForm" (ngSubmit)="save()" *ngIf="role">
+<form nz-form #validateForm="ngForm" (ngSubmit)="save()" *ngIf="model">
     <div class="modal-header">
         <div class="modal-title">
             {{'EditRole' | translate}}
         </div>
     </div>
 
-    <nz-spin [nzSpinning]="!role">
-        <nz-form-item>
-            <nz-form-control nzHasFeedback>
-                <input nz-input name="name" #name="ngModel" [(ngModel)]="role.name" [placeholder]="'Name' | translate"
-                    [disabled]="role.isStatic" required>
-                <nz-form-explain *ngIf="name.control.dirty&&name.control.errors">
-                    <ng-container *ngIf="name.control.hasError('required')">{{'CanNotNull' | translate}}</ng-container>
-                </nz-form-explain>
-            </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item>
-            <nz-form-control nzHasFeedback>
-                <input nz-input name="displayName" #displayName="ngModel" [(ngModel)]="role.displayName" [placeholder]="'DisplayName' | translate"
+    <nz-spin [nzSpinning]="!model">
+        <div se-container="1" labelWidth="150">
+            <se label="{{'Name' | translate}}">
+                <input nz-input [disabled]="model.role.isStatic" [(ngModel)]="model.role.name" name="name" maxlength="32"
+                    type="text" required>
+            </se>
+            <se label="{{'DisplayName' | translate}}" error="{{'显示名不能为空' | translate}}" required>
+                <input nz-input [(ngModel)]="model.role.displayName" name="displayName" maxlength="64" type="text"
                     required>
-                <nz-form-explain *ngIf="displayName.control.dirty&&displayName.control.errors">
-                    <ng-container *ngIf="displayName.control.hasError('required')">{{'CanNotNull' | translate}}</ng-container>
-                </nz-form-explain>
-            </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item>
-            <nz-form-control>
-                <input nz-input name="description" [(ngModel)]="role.description" [placeholder]="'RoleDescription' | translate">
-            </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item>
-            <nz-checkbox-group name="permissions" [(ngModel)]="permissionList" *ngIf="permissionList.length!=0"></nz-checkbox-group>
-        </nz-form-item>
+            </se>
+            <se label="{{'RoleDescription' | translate}}" optional="(选填)">
+                <textarea nz-input [(ngModel)]="model.role.description" name="description" [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
+            </se>
+            <se label="{{'Permissions' | translate}}" required>
+                <nz-checkbox-group name="permissions" [(ngModel)]="permissionList" *ngIf="permissionList.length!=0"></nz-checkbox-group>
+            </se>
+        </div>
     </nz-spin>
 
     <div class="modal-footer">

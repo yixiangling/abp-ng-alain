@@ -7,16 +7,14 @@ import { NzModalRef } from 'ng-zorro-antd';
 import { I18NService } from '@core/i18n/i18n.service';
 
 @Component({
-    selector: 'app-edit-user',
     templateUrl: './edit-user.component.html',
     styles: []
 })
 export class EditUserComponent implements OnInit {
 
-
     @Input() id: number;
     saving: boolean = false;
-    user: UserDto = undefined;
+    model: UserDto = undefined;
     roles: RoleDto[] = null;
 
     roleList = [];
@@ -46,18 +44,18 @@ export class EditUserComponent implements OnInit {
         ).subscribe(
             ([roles, user]) => {
                 this.roles = roles.items;
-                this.user = user;
+                this.model = user;
                 this.roles.forEach((item) => {
                     this.roleList.push({
-                        label: item.displayName, value: item.name, checked: this.userInRole(item, this.user)
+                        label: item.displayName, value: item.name, checked: this.userInRole(item, this.model)
                     });
                 });
             }
         )
     }
 
-    userInRole(role: RoleDto, user: UserDto): boolean {
-        return user.roleNames.indexOf(role.normalizedName) !== -1;
+    userInRole(role: RoleDto, model: UserDto): boolean {
+        return model.roleNames.indexOf(role.normalizedName) !== -1;
     }
 
     save(): void {
@@ -67,9 +65,9 @@ export class EditUserComponent implements OnInit {
                 tmpRoleNames.push(item.value);
             }
         });
-        this.user.roleNames = tmpRoleNames;
+        this.model.roleNames = tmpRoleNames;
 
-        this.userService.update(this.user)
+        this.userService.update(this.model)
             .pipe(finalize(() => { this.saving = false }))
             .subscribe(() => {
                 this.notifyService.success(this.i18NService.localize('SavedSuccessfully'));

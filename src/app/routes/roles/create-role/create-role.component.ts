@@ -12,7 +12,7 @@ export class CreateRoleComponent implements OnInit {
 
     saving = false;
     permissions: ListResultDtoOfPermissionDto = null;
-    role: CreateRoleDto = new CreateRoleDto();
+    model: CreateRoleDto = new CreateRoleDto();
     permissionList = [];
 
     constructor(
@@ -25,7 +25,7 @@ export class CreateRoleComponent implements OnInit {
 
     ngOnInit() {
         this.saving = true;
-        
+
         this.roleService.getAllPermissions()
             .pipe(finalize(()=>{this.saving = false}))
             .subscribe((permissions: ListResultDtoOfPermissionDto) => {
@@ -50,9 +50,9 @@ export class CreateRoleComponent implements OnInit {
             }
         });
 
-        this.role.permissions = tmpPermissions;
+        this.model.permissions = tmpPermissions;
 
-        this.roleService.create(this.role)
+        this.roleService.create(this.model)
             .pipe(finalize(()=>{this.saving = false}))
             .subscribe(() => {
                 this.notifyService.success(this.i18NService.localize('SavedSuccessfully'));

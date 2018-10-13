@@ -21,7 +21,9 @@ http通信采用的是已封装好针对abp有处理的http类，`src/app/core/a
 
 支持ABP免费模板最新版本
 
-## 快速入门
+**ng-alain已支持到Angular6，使用前请`ng -v`检查你的Angular-cli版本**
+
+## 使用方法
 
 1. 创建基于ng-alain的脚手架；请参考[命令行工具](https://ng-alain.com/cli)了解更多细节。
 ```bash
@@ -44,6 +46,13 @@ npm install --save-dev nswag
 ng serve
 ```
 
+5. 其它
+```bash
+如果你调用 \nswag\refresh.bat 更新service-proxies.ts文件
+请把第9行的 import 'rxjs/add/operator/finally'; 此行删除
+```
+
+
 ## 修改说明
 ### 服务器地址修改
 `src/assets/appconfig.json`
@@ -59,6 +68,22 @@ ng serve
 ### 多语言问题
 
 切换到中文语言时仍有英文是因为免费模板提供的中文语言数据不全，只要自行补足即可。
+
+## 增加的内容
+
+
+|   组件名称  |    说明  |
+| ------------- | ------------- |
+|	translateFormat	|	新增的pipe，用于处理多语言带参数定义的转义	|
+
+## 使用时的修改建议
+
++ 由于配置与加载时机不同，免费模板提供的配置都是通过`/AbpUserConfiguration/GetAll`方法获得的，需要对该方法进行重写或另提供其他方法来获取符合ng-alain机制的配置。后台增加对应的方法后修改`abp-configuration.service.ts`文件内容即可
+
++ 默认多语言切换免费模板是在启动时获得，修改语言会重刷界面，建议增加独立的获取多语言数据接口，后台增加对应方法后修改`AbpTranslateLoader.ts`文件
+
++ 修改后台User对象，增加Avatar（用户头像），如若不需要可删除页面中显示头像的代码。
+
 
 ## Links
 

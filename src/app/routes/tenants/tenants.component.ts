@@ -29,7 +29,7 @@ export class TenantsComponent extends PagedListingComponentBase<TenantDto> {
     }
 
     create(): void {
-        this.modalHelper.open(CreateTenantComponent, undefined, 'md', { nzMask: true }).subscribe(result => {
+        this.modalHelper.open(CreateTenantComponent, undefined, 'md', { nzMaskClosable: false }).subscribe(result => {
             if(result){
                 this.refresh();
             }
@@ -37,7 +37,7 @@ export class TenantsComponent extends PagedListingComponentBase<TenantDto> {
     }
 
     edit(item: TenantDto): void {
-        this.modalHelper.open(EditTenantComponent, { id: item.id }, 'md', { nzMask: true }).subscribe(result => {
+        this.modalHelper.open(EditTenantComponent, { id: item.id }, 'md', { nzMaskClosable: false }).subscribe(result => {
             if(result){
                 this.refresh();
             }

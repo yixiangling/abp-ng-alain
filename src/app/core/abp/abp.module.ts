@@ -16,15 +16,19 @@ import { TranslateFormatPipe } from './localization/translateFormat.pipe'
 
 import { AbpHttpConfiguration, AbpHttp } from './abpHttp';
 
-import { Abp } from '@core/abp/Abp';
 import { AppConsts } from '@core/abp/AppConsts';
 import { API_BASE_URL } from '@core/abp/service-proxies/service-proxies';
 import { ServiceProxyModule } from '@core/abp/service-proxies/service-proxy.module';
 
 import { AbpConfigurationService } from '@core/abp/abp-configuration.service'
-// import { I18NService } from '@core/i18n/i18n.service';
+
+import { ValidateEqualDirective } from './components/validateEqual.directive';
 
 const PIPES = [TranslateFormatPipe];
+
+const DIRECTIVES = [
+    ValidateEqualDirective
+];
 
 const ABP_SERVICES = [
     MessageService,
@@ -58,17 +62,9 @@ export function getRemoteServiceBaseUrl(): string {
     return AppConsts.remoteServiceBaseUrl;
 }
 
-export function getCurrentLanguage(): string {
-    return Abp.localization.currentLanguage.name;
-}
-
 const ABP_PROVIDERS = [
     ABP_HTTP_PROVIDER,
-    { provide: API_BASE_URL, useFactory: getRemoteServiceBaseUrl },
-    {
-        provide: LOCALE_ID,
-        useFactory: getCurrentLanguage
-    }
+    { provide: API_BASE_URL, useFactory: getRemoteServiceBaseUrl }
 ]
 
 @NgModule({
@@ -79,18 +75,19 @@ const ABP_PROVIDERS = [
     ],
 
     declarations: [
-        ...PIPES
+        ...PIPES,
+        ...DIRECTIVES
     ],
 
     providers: [
         AbpHttpConfiguration,
         CookieService,
         ...ABP_PROVIDERS,
-        // ...ABP_SERVICES
     ],
     exports: [
         ServiceProxyModule,
-        ...PIPES
+        ...PIPES,
+        ...DIRECTIVES
     ],
 })
 export class AbpModule {

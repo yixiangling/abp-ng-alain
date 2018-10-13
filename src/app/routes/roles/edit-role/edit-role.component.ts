@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { RoleServiceProxy, RoleDto, ListResultDtoOfPermissionDto } from '@core/abp/service-proxies/service-proxies';
+import { RoleServiceProxy, GetRoleForEditOutput, ListResultDtoOfPermissionDto, RoleDto } from '@core/abp/service-proxies/service-proxies';
 import { zip } from 'rxjs';
 import { finalize, catchError } from "rxjs/operators";
 import { NotifyService } from '@core/abp/notify/notify.service';
@@ -13,7 +13,7 @@ export class EditRoleComponent implements OnInit {
 
     @Input() id: number;
     permissions: ListResultDtoOfPermissionDto = null;
-    role: RoleDto = null;
+    model: GetRoleForEditOutput = null;
 
     permissionList = [];
     saving: boolean = false;
@@ -30,34 +30,22 @@ export class EditRoleComponent implements OnInit {
     ngOnInit() {
         this.saving = true;
 
-        zip(
-            this.roleService.getAllPermissions(),
-            this.roleService.get(this.id)
-        ).pipe(
-            catchError(([permissions, role]) => {
-                this.notifyService.error(this.i18NService.localize('LoadingFailedTryAgain'));
-                return [permissions, role];
-            }),
-            finalize(() => this.saving = false)
-        ).subscribe(
-            ([permissions, role]) => {
-                this.permissions = permissions;
-                this.role = role;
-                this.permissions.items.forEach((item) => {
-                    this.permissionList.push({
-                        label: item.displayName, value: item.name, checked: this.checkPermission(item.name), disabled: this.role.isStatic
-                    });
+        this.roleService.getRoleForEdit(this.id).pipe(finalize(() => this.saving = false)).subscribe(result => {
+            this.model = result
+            result.permissions.forEach((item) => {
+                this.permissionList.push({
+                    label: item.displayName, value: item.name, checked: this.checkPermission(item.name), disabled: result.role.isStatic
                 });
-            }
-        )
+            });
+        });
     }
 
     checkPermission(permissionName: string): boolean {
-        return this.role.permissions.indexOf(permissionName) != -1;
+        return this.model.grantedPermissionNames.indexOf(permissionName) != -1;
     }
 
     save(): void {
-        this.saving = true;
+        const role = this.model.role;
         let tmpPermissions = [];
 
         this.permissionList.forEach((item) => {
@@ -66,9 +54,14 @@ export class EditRoleComponent implements OnInit {
             }
         });
 
-        this.role.permissions = tmpPermissions;
 
-        this.roleService.update(this.role)
+        this.saving = true;
+        var input = new RoleDto();
+        input.init(role);
+
+        input.permissions = tmpPermissions;
+
+        this.roleService.update(input)
             .pipe(finalize(() => { this.saving = false }))
             .subscribe(() => {
                 this.notifyService.success(this.i18NService.localize('SavedSuccessfully'));

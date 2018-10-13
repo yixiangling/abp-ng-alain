@@ -1,56 +1,31 @@
-<form nz-form #validateForm="ngForm" (ngSubmit)="save()" *ngIf="tenant">
+<form nz-form #validateForm="ngForm" (ngSubmit)="save()" *ngIf="model">
     <div class="modal-header">
         <div class="modal-title">
             {{'CreateNewTenant' | translate}}
         </div>
     </div>
 
-    <nz-spin [nzSpinning]="!tenant">
-        <nz-form-item>
-            <nz-form-control nzHasFeedback>
-                <input nz-input name="tenancyName" #tenancyName="ngModel" [(ngModel)]="tenant.tenancyName"
-                    [placeholder]="'TenancyName' | translate" required>
-                <nz-form-explain *ngIf="tenancyName.control.dirty&&tenancyName.control.errors">
-                    <ng-container *ngIf="tenancyName.control.hasError('required')">{{'Required' | translate}}</ng-container>
-                </nz-form-explain>
-            </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item>
-            <nz-form-control nzHasFeedback>
-                <input nz-input name="name" #name="ngModel" [(ngModel)]="tenant.name" [placeholder]="'Name' | translate"
-                    required>
-                <nz-form-explain *ngIf="name.control.dirty&&name.control.errors">
-                    <ng-container *ngIf="name.control.hasError('required')">{{'Required' | translate}}</ng-container>
-                </nz-form-explain>
-            </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item>
-            <nz-form-control nzHasFeedback>
-                <input nz-input name="connectionString" [(ngModel)]="tenant.connectionString" [placeholder]="('DatabaseConnectionString' | translate) + ('Optional' | translate)">
-            </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item>
-            <nz-form-control nzHasFeedback>
-                <input nz-input name="adminEmailAddress" #adminEmailAddress="ngModel" [(ngModel)]="tenant.adminEmailAddress"
-                    [placeholder]="'AdminEmailAddress' | translate" autocomplete='name' required email>
-                <nz-form-explain *ngIf="adminEmailAddress.control.dirty&&adminEmailAddress.control.errors">
-                    <ng-container *ngIf="adminEmailAddress.control.hasError('required')">{{'Required' |
-                        translate}}</ng-container>
-                    <ng-container *ngIf="adminEmailAddress.control.hasError('email')">{{'NotEmail' | translate}}</ng-container>
-                </nz-form-explain>
-            </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-control>
-            <label nz-checkbox name="isActive" [(ngModel)]="tenant.isActive">{{'IsActive' | translate}}</label>
-        </nz-form-control>
-
-        <nz-form-control>
-            <label>{{'DefaultPasswordIs' | translateFormat : '123qwe'}}</label>
-        </nz-form-control>
+    <nz-spin [nzSpinning]="saving">
+            <div se-container="1" labelWidth="200">
+                <se label="{{'TenancyName' | translate}}" error="租户名称不能为空，只能是字母数字和下划线，且必须字母开头" extra="只能是字母数字和下划线，且必须字母开头" required>
+                    <input nz-input [(ngModel)]="model.tenancyName" name="tenancyName" maxlength="64" type="text" pattern="^[a-zA-Z][a-zA-Z0-9_-]{1,}$" required>
+                </se>
+                <se label="{{'DisplayName' | translate}}" error="{{'Required' | translate}}" required>
+                    <input nz-input [(ngModel)]="model.name" name="name" type="text" maxlength="128" required>
+                </se>
+                <se label="{{'AdminEmailAddress' | translate}}" error="{{'填写有效的邮箱地址' | translate}}" required>
+                    <input nz-input [(ngModel)]="model.adminEmailAddress" name="adminEmailAddress" type="email" pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$" maxlength="256" required>
+                </se>
+                <se label="{{'DatabaseConnectionString' | translate}}" error="{{'Required' | translate}}" optional="(选填)">
+                    <input nz-input [(ngModel)]="model.connectionString" name="connectionString" type="text" maxlength="1024">
+                </se>
+                <se label="{{'IsActive' | translate}}">
+                    <nz-switch [(ngModel)]="model.isActive" name="isActive"></nz-switch>
+                </se>
+                <se label="">
+                    {{'DefaultPasswordIs' | translateFormat : '123qwe'}}
+                </se>
+            </div>
     </nz-spin>
 
     <div class="modal-footer">

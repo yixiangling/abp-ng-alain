@@ -10,7 +10,7 @@ import { I18NService } from '@core/i18n/i18n.service';
 })
 export class EditTenantComponent {
     @Input() id: number;
-    tenant: TenantDto = null;
+    model: TenantDto = null;
     saving: boolean = false;
 
     constructor(
@@ -27,14 +27,14 @@ export class EditTenantComponent {
         this.tenantServiceProxy.get(this.id)
         .pipe(finalize(() => { this.saving = false }))
         .subscribe(result => {
-            this.tenant = result;
+            this.model = result;
         });
     }
 
     save(): void {
         this.saving = true;
 
-        this.tenantServiceProxy.update(this.tenant)
+        this.tenantServiceProxy.update(this.model)
         .pipe(finalize(() => { this.saving = false }))
         .subscribe(() => {
             this.notifyService.success(this.i18NService.localize('SavedSuccessfully'));

@@ -1,28 +1,29 @@
-<page-header [title]="'Users' | translate">
-    <ng-template #action>
+<page-header [title]="'UserManagement' | translate">
+
+</page-header>
+
+<nz-card [nzExtra]="extraAction">
+    <ng-template #extraAction>
         <button nz-button (click)="create()" nzType="primary">{{'Create' | translate}}</button>
         <button nz-button (click)="refresh()">{{'Refresh' | translate}}</button>
     </ng-template>
-</page-header>
 
-<nz-card>
-
-    <nz-table #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="dataItems" [nzTotal]="pageingInfo.totalItems"
+    <nz-table #dataTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="dataItems" [nzTotal]="pageingInfo.totalItems"
         [(nzPageIndex)]="pageingInfo.pageNumber" [(nzPageSize)]="pageingInfo.pageSize" [nzLoading]="pageingInfo.isTableLoading"
         (nzPageIndexChange)="refresh()" (nzPageSizeChange)="refresh()">
         <thead>
             <tr>
                 <th>{{"UserName" | translate}}</th>
-                <th>{{"FullName" | translate}}</th>
+                <th>{{"UserFullName" | translate}}</th>
                 <th>{{"EmailAddress" | translate}}</th>
                 <th>{{"IsActive" | translate}}</th>
                 <th>{{"Actions" | translate}}</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of ajaxTable.data">
+            <tr *ngFor="let item of dataTable.data">
                 <td>{{item.userName}}</td>
-                <td>{{item.fullName}}</td>
+                <td>{{item.name}}</td>
                 <td>{{item.emailAddress}}</td>
                 <td>
                     <span [innerHTML]="item.isActive | yn : ('Yes' | translate) : ('No' | translate)"></span>
@@ -30,7 +31,7 @@
                 <td>
                     <a (click)="edit(item)">{{'Edit' | translate}}</a>
                     <nz-divider nzType="vertical"></nz-divider>
-                    <a nz-popconfirm [nzTitle]="'AreYouSureWantToDelete' | translateFormat : item.userName"
+                    <a nz-popconfirm [nzTitle]="'UserDeleteWarningMessage' | translateFormat : item.userName"
                         (nzOnConfirm)="delete(item)" nzPlacement="top">{{'Delete' | translate}}</a>
                 </td>
             </tr>

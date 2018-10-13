@@ -6,6 +6,8 @@ import { ModalHelper } from '@delon/theme';
 
 import { CreateRoleComponent } from './create-role/create-role.component';
 import { EditRoleComponent } from './edit-role/edit-role.component';
+import { I18NService } from '@core/i18n/i18n.service';
+import { NotifyService } from '@core/abp/notify/notify.service';
 
 @Component({
     templateUrl: './roles.component.html'
@@ -13,7 +15,9 @@ import { EditRoleComponent } from './edit-role/edit-role.component';
 export class RolesComponent extends PagedListingComponentBase<RoleDto> {
     constructor(
         private modalHelper: ModalHelper,
-        private rolesService: RoleServiceProxy
+        private i18NService: I18NService,
+        private rolesService: RoleServiceProxy,
+        private notifyService: NotifyService
     ) {
         super();
     }
@@ -23,11 +27,14 @@ export class RolesComponent extends PagedListingComponentBase<RoleDto> {
     }
 
     protected delete(item: RoleDto): void {
-        this.rolesService.delete(item.id).subscribe(() => { this.refresh(); });
+        this.rolesService.delete(item.id).subscribe(() => {
+            this.notifyService.success(this.i18NService.localize('SuccessfullyDeleted'));
+            this.refresh();
+        });
     }
 
     create(): void {
-        this.modalHelper.open(CreateRoleComponent, undefined, 'md', { nzMask: true }).subscribe(result => {
+        this.modalHelper.open(CreateRoleComponent, undefined, 'md', { nzMaskClosable: false }).subscribe(result => {
             if (result) {
                 this.refresh();
             }
@@ -35,7 +42,7 @@ export class RolesComponent extends PagedListingComponentBase<RoleDto> {
     }
 
     edit(item: RoleDto): void {
-        this.modalHelper.open(EditRoleComponent, { id: item.id }, 'md', { nzMask: true }).subscribe(result => {
+        this.modalHelper.open(EditRoleComponent, { id: item.id }, 'md', { nzMaskClosable: false }).subscribe(result => {
             if (result) {
                 this.refresh();
             }

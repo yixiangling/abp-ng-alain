@@ -1,75 +1,43 @@
-<form nz-form #validateForm="ngForm" (ngSubmit)="save()" *ngIf="user">
+<form nz-form #validateForm="ngForm" (ngSubmit)="save()" *ngIf="model">
     <div class="modal-header">
         <div class="modal-title">
-            {{'CreateNewUser' | translate}}
+            {{'CreateUser' | translate}}
         </div>
     </div>
 
     <nz-tabset>
         <nz-tab [nzTitle]="'UserDetails' | translate">
-            <nz-form-item>
-                <nz-form-control nzHasFeedback>
-                    <input nz-input name="userName" #userName="ngModel" [(ngModel)]="user.userName" [placeholder]="'UserName' | translate">
-                    <nz-form-explain *ngIf="userName.control.dirty&&userName.control.errors">
-                        <ng-container *ngIf="userName.control.hasError('required')">{{'Required' | translate}}</ng-container>
-                    </nz-form-explain>
-                </nz-form-control>
-            </nz-form-item>
 
-            <nz-form-item nz-row nzGutter="8">
-                <nz-form-control nzHasFeedback nz-col [nzSpan]="12">
-                    <input nz-input name="name" #name="ngModel" [(ngModel)]="user.name" [placeholder]="'name' | translate" autocomplete="name" required>
-                    <nz-form-explain *ngIf="name.control.dirty&&name.control.errors">
-                        <ng-container *ngIf="name.control.hasError('required')">{{'Required' | translate}}</ng-container>
-                    </nz-form-explain>
-                </nz-form-control>
-                <nz-form-control nzHasFeedback nz-col [nzSpan]="12">
-                    <input nz-input name="surname" #surname="ngModel" [(ngModel)]="user.surname" [placeholder]="'Surname' | translate" required>
-                    <nz-form-explain *ngIf="surname.control.dirty&&surname.control.errors">
-                        <ng-container *ngIf="surname.control.hasError('required')">{{'Required' | translate}}</ng-container>
-                    </nz-form-explain>
-                </nz-form-control>
-            </nz-form-item>
+            <div se-container="1" labelWidth="150">
+                <se label="{{'UserName' | translate}}" error="{{'用户名不能为空' | translate}}" required>
+                    <input nz-input [(ngModel)]="model.userName" name="userName" maxlength="128" type="text" required>
+                </se>
+                <se label="{{'Name' | translate}}" error="{{'名不能为空' | translate}}" required>
+                    <input nz-input [(ngModel)]="model.name" name="name" type="text" maxlength="32" required>
+                </se>
+                <se label="{{'Surname' | translate}}" error="{{'姓不能为空' | translate}}" required>
+                  <input nz-input [(ngModel)]="model.surname" name="surname" type="text" maxlength="32" required>
+                </se>
+                <se label="{{'EmailAddress' | translate}}" error="{{'填写有效的邮箱地址' | translate}}" required>
+                    <input nz-input [(ngModel)]="model.emailAddress" name="emailAddress" type="email" pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$" maxlength="256" required>
+                </se>
+                <se label="{{'Password' | translate}}" error="{{'密码必须包含 {0} 个字符' | translateFormat : 6}}" required>
+                    <input nz-input [(ngModel)]="model.password" name="password" validateEqual="passwordRepeat" reverse="true" type="password"  minlength="6" maxlength="32" required>
+                </se>
+                <se label="{{'PasswordRepeat' | translate}}" error="{{'PasswordInconsistent' | translate}}" required>
+                    <input nz-input [(ngModel)]="confirmPassword" name="passwordRepeat" validateEqual="password" reverse="false" type="password" minlength="6" maxlength="32" required>
+                </se>
+                <se label="{{'IsActive' | translate}}">
+                    <nz-switch [(ngModel)]="model.isActive" name="isActive"></nz-switch>
+                </se>
+            </div>
 
-            <nz-form-item>
-                <nz-form-control nzHasFeedback>
-                    <input nz-input name="emailAddress" #emailAddress="ngModel" [(ngModel)]="user.emailAddress" [placeholder]="'EmailAddress' | translate" autocomplete="email" required email>
-                    <nz-form-explain *ngIf="emailAddress.control.dirty&&emailAddress.control.errors">
-                        <ng-container *ngIf="emailAddress.control.hasError('required')">{{'Required' | translate}}</ng-container>
-                        <ng-container *ngIf="emailAddress.control.hasError('email')">{{'NotEmail' | translate}}</ng-container>
-                    </nz-form-explain>
-                </nz-form-control>
-            </nz-form-item>
-
-            <nz-form-item>
-                <nz-form-control nzHasFeedback>
-                    <input nz-input name="password" #password="ngModel" [(ngModel)]="user.password" [placeholder]="'Password' | translate" type="password" autocomplete="current-password" validateEqual="confirmPassword" reverse="true" required minlength="6" maxlength="32">
-                    <nz-form-explain *ngIf="password.control.dirty&&password.control.errors">
-                        <ng-container *ngIf="password.control.hasError('required')">{{'Required' | translate}}</ng-container>
-                        <ng-container *ngIf="password.control.hasError('minlength')">{{'MinLength' | translate}}</ng-container>
-                        <ng-container *ngIf="password.control.hasError('maxlength')">{{'MaxLength' | translate}}</ng-container>
-                    </nz-form-explain>
-                </nz-form-control>
-            </nz-form-item>
-
-            <nz-form-item>
-                <nz-form-control nzHasFeedback>
-                    <input nz-input name="confirmPassword" #confirmPasswordInput='ngModel' [(ngModel)]="confirmPassword" [placeholder]="'ConfirmPassword' | translate" type="password" validateEqual="password" reverse="false" autocomplete="current-password" required>
-                    <nz-form-explain *ngIf="confirmPasswordInput.control.dirty&&confirmPasswordInput.control.errors">
-                        <ng-container *ngIf="confirmPasswordInput.control.hasError('required')">{{'Required' | translate}}</ng-container>
-                        <ng-container *ngIf="confirmPasswordInput.control.hasError('validateEqual')">{{'PasswordInconsistent' | translate}}</ng-container>
-                    </nz-form-explain>
-                </nz-form-control>
-            </nz-form-item>
-
-            <nz-form-item>
-                <label nz-checkbox name="isActive" [(ngModel)]="user.isActive">{{'IsActive' | translate}}</label>
-            </nz-form-item>
         </nz-tab>
 
-
         <nz-tab [nzTitle]="'UserRoles' | translate">
-            <nz-checkbox-group name="roles" [(ngModel)]="roleList"></nz-checkbox-group>
+            <div class="pt-md pr-md pl-md">
+                <nz-checkbox-group name="roles" [(ngModel)]="roleList"></nz-checkbox-group>
+            </div>
         </nz-tab>
 
 
@@ -77,7 +45,8 @@
 
     <div class="modal-footer">
         <button nz-button type="button" [disabled]="saving" (click)="close()">{{"Cancel" | translate}}</button>
-        <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">{{"Save" | translate}}</button>
+        <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.valid||saving">{{"Save" |
+            translate}}</button>
     </div>
 
 </form>

@@ -7,80 +7,43 @@
             </div>
         </ng-template>
         <form nz-form #validateForm="ngForm" (ngSubmit)="save()">
+          <div se-container="1" labelWidth="100">
+            <se label="{{'Name' | translate}}" error="{{'Required' | translate}}" required>
+                <input nz-input [(ngModel)]="model.name" name="name" maxlength="64" type="text" required>
+            </se>
+            <se label="{{'Surname' | translate}}" error="{{'Required' | translate}}" required>
+                <input nz-input [(ngModel)]="model.surname" name="surname" maxlength="64" type="text" required>
+            </se>
 
-            <br>
+            <se label="{{'EmailAddress' | translate}}" error="{{'填写有效的邮箱地址' | translate}}" required>
+                <input nz-input [(ngModel)]="model.emailAddress" name="emailAddress" type="email" pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$"
+                    maxlength="256" required>
+            </se>
+            <se label="{{'UserName' | translate}}" error="{{'Required' | translate}}" required>
+                <input nz-input [(ngModel)]="model.userName" name="userName" maxlength="128" type="text" required>
+            </se>
 
-            <nz-form-item>
-                <nz-form-control nzHasFeedback>
-                    <nz-input-group nzPrefixIcon="anticon anticon-user">
-                        <input nz-input name="name" #name='ngModel' [(ngModel)]="model.name" [placeholder]="'Name' | translate"
-                            required>
-                    </nz-input-group>
-                    <nz-form-explain *ngIf="name.control.dirty&&name.control.errors">
-                        <ng-container *ngIf="name.control.hasError('required')">{{'Required' | translate}}</ng-container>
-                    </nz-form-explain>
-                </nz-form-control>
-            </nz-form-item>
+            <se label="{{'Password' | translate}}" error="{{'密码必须包含 {0} 个字符' | translateFormat : 6}}" required>
+                <input nz-input [(ngModel)]="model.password" name="password" validateEqual="passwordRepeat" reverse="true"
+                    type="password" minlength="6" maxlength="32" required>
+            </se>
 
-            <nz-form-item>
-                <nz-form-control nzHasFeedback>
-                    <nz-input-group nzPrefixIcon="anticon anticon-user">
-                        <input nz-input name="surname" #surname="ngModel" [(ngModel)]="model.surname" [placeholder]="'Surname' | translate"
-                            required>
-                    </nz-input-group>
-                    <nz-form-explain *ngIf="surname.control.dirty&&surname.control.errors">
-                        <ng-container *ngIf="surname.control.hasError('required')">{{'Required' | translate}}</ng-container>
-                    </nz-form-explain>
-                </nz-form-control>
-            </nz-form-item>
+            <se label="{{'PasswordRepeat' | translate}}" error="{{'PasswordInconsistent' | translate}}" required>
+                <input nz-input [(ngModel)]="confirmPassword" name="passwordRepeat" validateEqual="password"
+                    reverse="false" type="password" minlength="6" maxlength="32" required>
+            </se>
+        </div>
 
-
-            <nz-form-item>
-                <nz-form-control nzHasFeedback>
-                    <nz-input-group nzPrefixIcon="anticon anticon-mail">
-                        <input nz-input type="email" name="emailAddress" #emailAddress="ngModel" [(ngModel)]="model.emailAddress" [placeholder]="'EmailAddress' | translate" required email>
-                    </nz-input-group>
-                    <nz-form-explain *ngIf="emailAddress.control.dirty&&emailAddress.control.errors">
-                        <ng-container *ngIf="emailAddress.control.hasError('email')">{{'NotEmail' | translate}}</ng-container>
-                        <ng-container *ngIf="emailAddress.control.hasError('required')">{{'Required' | translate}}</ng-container>
-                    </nz-form-explain>
-                </nz-form-control>
-            </nz-form-item>
-
-
-            <nz-form-item>
-                <nz-form-control nzHasFeedback>
-                    <nz-input-group nzPrefixIcon="anticon anticon-user">
-                        <input nz-input name="userName" #userName="ngModel" [(ngModel)]="model.userName" [placeholder]="'UserName' | translate"
-                            required maxlength="32">
-                    </nz-input-group>
-                    <nz-form-explain *ngIf="userName.control.dirty&&userName.control.errors">
-                        <ng-container *ngIf="userName.control.hasError('required')">{{'Required' | translate}}</ng-container>
-                    </nz-form-explain>
-                </nz-form-control>
-            </nz-form-item>
-
-            <nz-form-item>
-                <nz-form-control nzHasFeedback>
-                    <nz-input-group nzPrefixIcon="anticon anticon-lock">
-                        <input nz-input type="password" name="password" #password="ngModel" [(ngModel)]="model.password"
-                            type="password" [placeholder]="'Password' | translate" required maxlength="32" minlength="6">
-                    </nz-input-group>
-                    <nz-form-explain *ngIf="password.control.dirty&&password.control.errors">
-                        <ng-container *ngIf="password.control.hasError('required')">{{'Required' | translate}}</ng-container>
-                        <ng-container *ngIf="password.control.hasError('minlength')">{{'MinLength' | translate}}</ng-container>
-                    </nz-form-explain>
-                </nz-form-control>
-            </nz-form-item>
-
-            <nz-form-item>
-                <nz-col [nzSpan]="12">
-                    <button nz-button [routerLink]="['../login']" type="button" [disabled]="saving">{{'Back' | translate}}</button>
-                </nz-col>
-                <nz-col [nzSpan]="12" class="text-right">
-                    <button nz-button nzType="primary" type="submit" [disabled]="!validateForm.valid||saving">{{'Submit' | translate}}</button>
-                </nz-col>
-            </nz-form-item>
+        <nz-row class="pt-md">
+            <nz-col [nzSpan]="12">
+                <button nz-button [routerLink]="['../login']" type="button" [disabled]="saving">{{'Back' |
+                    translate}}</button>
+            </nz-col>
+            <nz-col [nzSpan]="12" class="text-right">
+                <button nz-button nzType="primary" type="submit" [disabled]="!validateForm.valid||saving">{{'Submit'
+                    | translate}}</button>
+            </nz-col>
+        </nz-row>
 
         </form>
 

@@ -1,13 +1,14 @@
 <page-header [title]="'Tenants' | translate">
-    <ng-template #action>
+
+</page-header>
+
+<nz-card [nzExtra]="extraAction">
+    <ng-template #extraAction>
         <button nz-button (click)="create()" nzType="primary">{{'Create' | translate}}</button>
         <button nz-button (click)="refresh()">{{'Refresh' | translate}}</button>
     </ng-template>
-</page-header>
 
-<nz-card>
-
-    <nz-table #ajaxTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="dataItems" [nzTotal]="pageingInfo.totalItems"
+    <nz-table #dataTable nzShowSizeChanger [nzFrontPagination]="false" [nzData]="dataItems" [nzTotal]="pageingInfo.totalItems"
         [(nzPageIndex)]="pageingInfo.pageNumber" [(nzPageSize)]="pageingInfo.pageSize" [nzLoading]="pageingInfo.isTableLoading"
         (nzPageIndexChange)="refresh()" (nzPageSizeChange)="refresh()">
         <thead>
@@ -19,7 +20,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of ajaxTable.data">
+            <tr *ngFor="let item of dataTable.data">
                 <td>{{item.tenancyName}}</td>
                 <td>{{item.name}}</td>
                 <td>

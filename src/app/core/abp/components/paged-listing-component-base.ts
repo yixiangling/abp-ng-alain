@@ -29,12 +29,22 @@ export abstract class PagedListingComponentBase<EntityDto> implements OnInit {
     public pageingInfo = new PageingInfo();
     public dataItems: EntityDto[] = [];
 
+    private debounceTimeTag: any = undefined;
+
     ngOnInit(): void {
         this.refresh();
     }
 
     refresh(): void {
-        this.getDataPage(this.pageingInfo.pageNumber);
+        //多次重复调用refresh去重
+        if(this.debounceTimeTag){
+            clearTimeout(this.debounceTimeTag);
+            this.debounceTimeTag = undefined;
+        }
+        this.debounceTimeTag = setTimeout(() => {
+            this.debounceTimeTag = undefined;
+            this.getDataPage(this.pageingInfo.pageNumber);
+        }, 100);
     }
 
     public showPaging(result: PagedResultDto, pageNumber: number): void {

@@ -10,7 +10,7 @@ import { I18NService } from '@core/i18n/i18n.service';
 })
 export class CreateTenantComponent {
     saving = false;
-    tenant: CreateTenantDto = new CreateTenantDto();
+    model: CreateTenantDto = new CreateTenantDto();
 
     constructor(
         private modal: NzModalRef,
@@ -21,13 +21,13 @@ export class CreateTenantComponent {
     }
 
     ngOnInit() {
-        this.tenant.init({ isActive: true });
+        this.model.init({ isActive: true });
     }
 
     save(): void {
         this.saving = true;
 
-        this.tenantServiceProxy.create(this.tenant)
+        this.tenantServiceProxy.create(this.model)
             .pipe(finalize(()=>{this.saving = false}))
             .subscribe(() => {
                 this.notifyService.success(this.i18NService.localize('SavedSuccessfully'));
