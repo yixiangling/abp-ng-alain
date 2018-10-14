@@ -93,3 +93,7 @@ ng serve
 
 # 其它
 * 没有用schematics做成angular包，太麻烦，我太懒
+
+## 如果你喜欢这个项目，可以扫码打赏一下给服务器充点带宽 ^Q^
+
+![打赏码](http://abp-ng-alain.cn-panda.cn/good.jpg) 
