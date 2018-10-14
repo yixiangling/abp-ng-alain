@@ -15,7 +15,8 @@ export class UserRegisterComponent {
 
     model: RegisterInput = new RegisterInput();
     saving: boolean = false;
-
+    confirmPassword: string = '';
+    
     constructor(
         private accountService: AccountServiceProxy,
         private notifyService: NotifyService,

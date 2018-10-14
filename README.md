@@ -46,12 +46,6 @@ npm install --save-dev nswag
 ng serve
 ```
 
-5. 其它
-```bash
-如果你调用 \nswag\refresh.bat 更新service-proxies.ts文件
-请把第9行的 import 'rxjs/add/operator/finally'; 此行删除
-```
-
 
 ## 修改说明
 ### 服务器地址修改
