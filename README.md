@@ -85,6 +85,10 @@ ng serve
 + [@delon](https://github.com/ng-alain/delon)
 + [DEMO](https://ng-alain.github.io/ng-alain/)
 
+## 学习改造abp前端文章推荐
+[诸葛小亮 abp & ng-alain 改造](https://www.jianshu.com/p/589af988637c)
+适用学习目的新手学习观摩（PS:这文章不是我写的，群里同僚写的）
+
 # 其它
 * 没有用schematics做成angular包，太麻烦，我太懒
 
