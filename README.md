@@ -89,9 +89,3 @@ ng serve
 [诸葛小亮 abp & ng-alain 改造](https://www.jianshu.com/p/589af988637c)
 适用学习目的新手学习观摩（PS:这文章不是我写的，群里同僚写的）
 
-# 其它
-* 没有用schematics做成angular包，太麻烦，我太懒
-
-## 如果你喜欢这个项目，可以扫码打赏一下给服务器充点带宽 ^Q^
-
-![打赏码](http://abp-ng-alain.cn-panda.cn/good.jpg) 
